@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+  backend:
+    image: thanusri/duniversity-portal:latest
+    container_name: college_backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    restart: always
+
+  mariadb:
+    image: mariadb:10.6
+    container_name: college_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:
